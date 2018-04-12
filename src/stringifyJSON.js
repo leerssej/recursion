@@ -4,18 +4,33 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // base cases: all primitives (except for strings) => convert to strings [no undefined in tests?]
+  // base cases: all primitives (except for strings) =>
+    // convert to strings [no undefined in tests?]
+  // objects (arrays, objectLits) =>
+    // pull off braces/brackets and send elements back to base case
 
+// baseCase
   // typeof includes(
-                  // Object,	 "object"
-                  // boolean,	 "boolean"
-                  // function, "function"
-                  // number,	 "number"
-                  // string,	 "string"
-                  // undefined,"undefined"
+    // convert to string
+      // (
+      // boolean,	 "boolean"
+      // function, "function"
+      // number,	 "number"
+      // undefined,"undefined"
+      // )
+    
+   // wrap in quotes
+     // string,	 "string"
+   
+// higherNode
+   // Object,	 "object"
+    // handle exception null
+    // if array - tear off bracket
+    // if object - tear off brace
+      // filet out each element and send up to base case again
   //)
     // (number, boolean, undefined, function) => toString
-      // null is bugged so needs special treatment as direct search
+      // null is bugged up so needs special treatment as direct search
     // string get wrapped in double quotes
     
   // objects - the branches (base cases get called on these)
