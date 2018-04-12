@@ -16,42 +16,35 @@ const stringifyJSON = (obj) => {
   const baseCaseConverterOrHigherLevelSplitter = obj => {
     // baseCase
     if (typeof obj !== 'object') {
+      // check if obj type is a base case ? T => add to assembled string
       if (baseCases.includes(typeof obj)) assembledString += obj.toString();
-      console.log('found!', typeof obj);
-      // typeof includes(
-        // convert to string
-        // (
-          // boolean,	 "boolean"
-          // function, "function"
-          // number,	 "number"
-          // undefined,"undefined"
-          // )
           
           // wrap in quotes
           // string,	 "string"
-      }
-        
-        // higherNode
-        // Object,	 "object"
-        // handle exception null
-        // null is bugged up so needs special treatment as direct search
-        // if array - 
-        // filet out each element and send up to base case again
-        // drop on brackets at both ends
-        // if object - tear off brace
-        // filet out each element and send up to base case again
-        // drop on braces at both ends
-        //)
-        // (number, boolean, undefined, function) => toString
-        // string get wrapped in double quotes
+
+    } else { // objects
+    //   // Object,	 "object"
+    //   // handle exception null
+    //   // null is bugged up so needs special treatment as direct search
+      console.log('found!', obj);
+      if (obj === null) assembledString += 'null';
+    //   // if array - 
+    //   // filet out each element and send up to base case again
+    //   // drop on brackets at both ends
+    //   // if (Array.isArray(obj))
+    //   // higherNode
+    //   // if object - tear off brace
+    //   // filet out each element and send up to base case again
+    //   // drop on braces at both ends
     }
-  
+      
+  };
   // feed the trunk into the chipper
   baseCaseConverterOrHigherLevelSplitter(obj);
-
+  // return all that was found    
   return assembledString;
 };
-
+    
 const test = value => {
       console.log(JSON.stringify(value), ': ', typeof (value), '  arr?:', Array.isArray(value));
     }
