@@ -9,23 +9,22 @@ var getElementsByClassName = function(soughtAfterClassName) {
 
   // declare foundNodeArr;
   let foundNodeArr = [];
-  console.log(foundNodeArr)
   const checkAndCollectNodesBeforeInquiringAboutTheirChildren = node => {
     // deal with undefined
     if (node.classList) {
       // checkIf Node has soughtAfterClassName
       if (node.classList.contains(soughtAfterClassName)) foundNodeArr.push(node);
     }
-    
+
     // move to next level down
     let nodesBelow = node.childNodes;
-    console.log(nodesBelow)
-    
+
     // run everything at this next level down through the checker
-    nodesBelow.forEach(node => checkAndCollectNodesBeforeInquiringAboutTheirChildren(node))
+    nodesBelow.forEach(checkAndCollectNodesBeforeInquiringAboutTheirChildren);
     //NB: this is the Open Loop Maker that engenders recursion
     //NBB: the inquiry into the children is what encourages function spawning
-   }
+  };
+
   // oh yeah, make sure to start feeding the tree trunk into the wood-chipper
   checkAndCollectNodesBeforeInquiringAboutTheirChildren(document.body);
 
