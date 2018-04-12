@@ -10,7 +10,7 @@ const stringifyJSON = (obj) => {
     // pull off braces/brackets and send elements back to base case
 
   // declare the string to begin building upon: assembledString;
-  const baseCases = ['number', 'boolean', 'undefined', 'function']
+  const baseCases = ['number', 'boolean', 'undefined', 'function'];
   let assembledString = '';
 
   const baseCaseConverterOrHigherLevelSplitter = obj => {
@@ -18,27 +18,35 @@ const stringifyJSON = (obj) => {
     if (typeof obj !== 'object') {
       // check if obj type is a base case ? T => add to assembled string
       if (baseCases.includes(typeof obj)) assembledString += obj.toString();
+      // wrap strings in quotes
       if (typeof obj === 'string') assembledString += `"${obj}"`;
-          // wrap in quotes
-          // string,	 "string"
+      console.log('obj', obj);
 
-    } else { // objects
-    //   // Object,	 "object"
-    //   // handle exception null
-    //   // null is bugged up so needs special treatment as direct search
-      console.log('found!', obj);
+    } else { // higherNode // objects
+      // handle exception null = bugged up so needs special treatment: direct search
       if (obj === null) assembledString += 'null';
-    //   // if array - 
-    //   // filet out each element and send up to base case again
-    //   // drop on brackets at both ends
-    //   // if (Array.isArray(obj))
-    //   // higherNode
-    //   // if object - tear off brace
-    //   // filet out each element and send up to base case again
-    //   // drop on braces at both ends
+      // if array - filet out each element and send up to base case again
+      if (Array.isArray(obj)) {
+        // handle empty array exception 
+        if (obj.length === 0) { 
+          assembledString += '[]';
+        } else {
+          obj.forEach((val,i) => {
+            console.log('obj, val', obj, val, typeof val);
+            // console.log(baseCaseConverterOrHigherLevelSplitter(val));
+            if (i === 0) assembledString += '['; // set opener
+            if (i > 0) assembledString += ','; // set transition separator
+            baseCaseConverterOrHigherLevelSplitter(val);
+          });
+          assembledString += ']'; // close array up at end
+        }
+      }
     }
-      
+      //   // if object - tear off brace
+      //   // filet out each element and send up to base case again
+      //   // drop on braces at both ends
   };
+      
   // feed the trunk into the chipper
   baseCaseConverterOrHigherLevelSplitter(obj);
   // return all that was found    
