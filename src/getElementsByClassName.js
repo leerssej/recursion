@@ -31,5 +31,3 @@ var getElementsByClassName = function(soughtAfterClassName) {
   // return everything found
   return foundNodeArr;
 };
-
-
