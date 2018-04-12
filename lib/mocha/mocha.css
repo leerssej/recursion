@@ -8,6 +8,7 @@ body {
 #mocha ul, #mocha li {
   margin: 0;
   padding: 0;
+  color: rgb(126, 19, 145);
 }
 
 #mocha ul {
@@ -205,7 +206,7 @@ body {
 }
 
 #mocha-stats em {
-  color: black;
+  color: rgb(204, 32, 175);
 }
 
 #mocha-stats a {
@@ -227,6 +228,7 @@ body {
 #mocha-stats canvas {
   width: 40px;
   height: 40px;
+  background-color:  rgba(123, 13, 143, 0.472);
 }
 
 code .comment { color: #ddd }
