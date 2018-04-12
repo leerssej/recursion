@@ -9,6 +9,8 @@ var stringifyJSON = function(obj) {
   // objects (arrays, objectLits) =>
     // pull off braces/brackets and send elements back to base case
 
+// declare the string to begin building upon: assembledString;
+
 // baseCase
   // typeof includes(
     // convert to string
@@ -25,19 +27,18 @@ var stringifyJSON = function(obj) {
 // higherNode
    // Object,	 "object"
     // handle exception null
-    // if array - tear off bracket
+      // null is bugged up so needs special treatment as direct search
+    // if array - 
+      // filet out each element and send up to base case again
+      // drop on brackets at both ends
     // if object - tear off brace
       // filet out each element and send up to base case again
+      // drop on braces at both ends
   //)
     // (number, boolean, undefined, function) => toString
-      // null is bugged up so needs special treatment as direct search
     // string get wrapped in double quotes
     
-  // objects - the branches (base cases get called on these)
-  // Arrays 
-    // if (Array.isArray(obj)) open brace, send back up to base case, close brace
-  // Object Literals
-
+// return assembledString;
 };
 
 const test = value => {
