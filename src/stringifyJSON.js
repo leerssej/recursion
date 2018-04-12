@@ -3,51 +3,61 @@
 
 // but you don't so you're going to write it from scratch:
 
-var stringifyJSON = function(obj) {
+const stringifyJSON = (obj) => {
   // base cases: all primitives (except for strings) =>
     // convert to strings [no undefined in tests?]
   // objects (arrays, objectLits) =>
     // pull off braces/brackets and send elements back to base case
 
-// declare the string to begin building upon: assembledString;
+  // declare the string to begin building upon: assembledString;
+  const baseCases = ['number', 'boolean', 'undefined', 'function']
+  let assembledString = '';
 
-// baseCase
-  // typeof includes(
-    // convert to string
-      // (
-      // boolean,	 "boolean"
-      // function, "function"
-      // number,	 "number"
-      // undefined,"undefined"
-      // )
-    
-   // wrap in quotes
-     // string,	 "string"
-   
-// higherNode
-   // Object,	 "object"
-    // handle exception null
-      // null is bugged up so needs special treatment as direct search
-    // if array - 
-      // filet out each element and send up to base case again
-      // drop on brackets at both ends
-    // if object - tear off brace
-      // filet out each element and send up to base case again
-      // drop on braces at both ends
-  //)
-    // (number, boolean, undefined, function) => toString
-    // string get wrapped in double quotes
-    
-// return assembledString;
+  const baseCaseConverterOrHigherLevelSplitter = obj => {
+    // baseCase
+    if (typeof obj !== 'object') {
+      if (baseCases.includes(typeof obj)) assembledString += obj.toString();
+      console.log('found!', typeof obj);
+      // typeof includes(
+        // convert to string
+        // (
+          // boolean,	 "boolean"
+          // function, "function"
+          // number,	 "number"
+          // undefined,"undefined"
+          // )
+          
+          // wrap in quotes
+          // string,	 "string"
+      }
+        
+        // higherNode
+        // Object,	 "object"
+        // handle exception null
+        // null is bugged up so needs special treatment as direct search
+        // if array - 
+        // filet out each element and send up to base case again
+        // drop on brackets at both ends
+        // if object - tear off brace
+        // filet out each element and send up to base case again
+        // drop on braces at both ends
+        //)
+        // (number, boolean, undefined, function) => toString
+        // string get wrapped in double quotes
+    }
+  
+  // feed the trunk into the chipper
+  baseCaseConverterOrHigherLevelSplitter(obj);
+
+  return assembledString;
 };
 
 const test = value => {
-  console.log(JSON.stringify(value), ': ', typeof (value), '  arr?:', Array.isArray(value));
-}
+      console.log(JSON.stringify(value), ': ', typeof (value), '  arr?:', Array.isArray(value));
+    }
+// test('hello world');
 
-test('hello world');
-
-var stringifiableObjects = [
+const stringifiableObjects = [
   9,
   null,
   true,
@@ -70,5 +80,5 @@ var stringifiableObjects = [
   [{ 'a': 'b' }, { 'c': 'd' }],
   { 'a': [], 'c': {}, 'b': true }
 ];
+// stringifiableObjects.map(test);
 
-stringifiableObjects.map(test);
