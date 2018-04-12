@@ -17,35 +17,47 @@ const stringifyJSON = (obj) => {
     // baseCase
     if (typeof obj !== 'object') {
       // check if obj type is a base case ? T => add to assembled string
-      if (baseCases.includes(typeof obj)) assembledString += obj.toString();
+      if (baseCases.includes(typeof obj)) return assembledString += obj.toString();
       // wrap strings in quotes
-      if (typeof obj === 'string') assembledString += `"${obj}"`;
+      if (typeof obj === 'string') return assembledString += `"${obj}"`;
       console.log('obj', obj);
 
     } else { // higherNode // objects
       // handle exception null = bugged up so needs special treatment: direct search
-      if (obj === null) assembledString += 'null';
+      if (obj === null) return assembledString += 'null';
       // if array - filet out each element and send up to base case again
       if (Array.isArray(obj)) {
         // handle empty array exception 
         if (obj.length === 0) { 
-          assembledString += '[]';
+          return assembledString += '[]';
         } else {
           obj.forEach((val,i) => {
-            console.log('obj, val', obj, val, typeof val);
-            // console.log(baseCaseConverterOrHigherLevelSplitter(val));
             if (i === 0) assembledString += '['; // set opener
             if (i > 0) assembledString += ','; // set transition separator
             baseCaseConverterOrHigherLevelSplitter(val);
           });
-          assembledString += ']'; // close array up at end
+          return assembledString += ']'; // close array up at end
         }
-      }
-    }
+      } else  // object is not null and not array: thus all that remains is Object literal
       //   // if object - tear off brace
-      //   // filet out each element and send up to base case again
-      //   // drop on braces at both ends
-  };
+        // filet out each element and send up to base case again
+        // drop on braces at both ends
+        // if (Object.keys(obj).length === 0) {
+        if (!Object.hasOwnProperty(obj)) assembledString += '{}';
+          // assembledString += '{}';
+        // } else {
+        //   obj.forEach((val, i) => {
+        //     if (i === 0) assembledString += '['; // set opener
+        //     if (i > 0) assembledString += ','; // set transition separator
+        //     baseCaseConverterOrHigherLevelSplitter(val);
+        //   });
+        //   assembledString += ']'; // close array up at end
+        // }
+        // console.log('obj, val', obj, val, typeof val);
+      //} // object object  
+    } // all objects
+  }; // baseCaseConverterFunction
+
       
   // feed the trunk into the chipper
   baseCaseConverterOrHigherLevelSplitter(obj);
