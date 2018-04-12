@@ -18,7 +18,7 @@ const stringifyJSON = (obj) => {
     if (typeof obj !== 'object') {
       // check if obj type is a base case ? T => add to assembled string
       if (baseCases.includes(typeof obj)) assembledString += obj.toString();
-          
+      if (typeof obj === 'string') assembledString += `"${obj}"`;
           // wrap in quotes
           // string,	 "string"
 
