@@ -20,7 +20,7 @@ module.exports = {
     /* Variable cames */
     'camelcase': 2,
     /* Language constructs */
-    'curly': 2,
+    "curly": [1, "multi-line"],
     'eqeqeq': [2, 'smart'],
     'func-style': [2, 'expression'],
     /* Semicolons */
