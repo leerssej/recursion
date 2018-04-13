@@ -11,11 +11,11 @@ const stringifyJSON = (obj) => {
 
   // declare the string to begin building upon: assembledString;
   const baseCases = ['number', 'boolean'];
-  const foulCases = ['functions', 'function'];
+  const foulCases = ['functions', 'undefined'];
   let assembledString = '';
 
   const baseCaseConverterOrHigherLevelSplitter = obj => {
-   if (!foulCases.includes(obj)) {
+  //  if (!foulCases.includes(obj)) {
     // baseCase
     if (typeof obj !== 'object') {
       // check if obj type is a base case ? T => add to assembled string
@@ -34,30 +34,33 @@ const stringifyJSON = (obj) => {
         } else {
           obj.forEach((val,i) => {
             if (i === 0) assembledString += '['; // set opener
-            if (i > 0) assembledString += ','; // set transition separator
+            if (i > 0) assembledString += ','; // set separator
             baseCaseConverterOrHigherLevelSplitter(val);
           });
           return assembledString += ']'; // close array up at end
         }
-      } else { // object is not null and not array: thus all that remains is Object literal
+      } else { // only object subtype that remains is Object literal
         // handle exception of empty object
         if (Object.keys(obj).length === 0) {
           return assembledString += '{}';
         } else {
-          console.log(obj);
           Object.entries(obj).forEach((kvPr, i) => {
           // drop on braces at both ends
             if (i === 0) assembledString += '{'; // set opener
-            if (i > 0) assembledString += ','; // set transition separator
-            baseCaseConverterOrHigherLevelSplitter(kvPr[0]);
-            assembledString += ':';
-            baseCaseConverterOrHigherLevelSplitter(kvPr[1]);
+            if (!foulCases.includes(kvPr[0])) { // check if has bad key
+              if (i > 0) assembledString += ','; // set separator
+              { 
+                baseCaseConverterOrHigherLevelSplitter(kvPr[0]);
+                assembledString += ':';
+                baseCaseConverterOrHigherLevelSplitter(kvPr[1]);
+              }
+            }
           });
           return assembledString += '}'; // close array up at end
         }
       } // object literal 
     } // all objects
-   }
+  //  }
   }; // baseCaseConverterFunction
 
       
