@@ -13,49 +13,26 @@ const stringifyJSON = obj => {
   const foulCases = ['functions', 'undefined'];
   let result = '';
 
-  const baseCaseConverterOrHigherLevelSplitter = obj => {
-    // baseCase
-    if (typeof obj !== 'object') {
-      // wrap strings in quotes
-      if (typeof obj === 'string') return result += `"${obj}"`;
-      // check if obj type is a base case ? T => add to assembled string
-      if (baseCases.includes(typeof obj)) return result += obj.toString();
-    }
-     
-    // higherNodes
-    // handle null = bugged up so needs special treatment: direct search
-    if (obj === null) return result += 'null';
-      
-    // array - filet out each element and send up to base case again
-    if (Array.isArray(obj)) {
-      // handle empty array exception 
-      if (obj.length === 0) return result += '[]';
-      
-      obj.forEach((val, i) => {
-        if (i === 0) result += '['; // set opener
-        if (i > 0) result += ','; // set separator
-        baseCaseConverterOrHigherLevelSplitter(val);
-      });
-      return result += ']'; // close array up at end
-    }
-
-    // Objects non-array
-    // handle exception of empty object
-    if (Object.keys(obj).length === 0) return result += '{}';
+    // baseCasea
+    if (typeof obj === 'string') return result += `"${obj}"`;
+    if (typeof obj !== 'object' || obj === null) return String(obj);
     
-    Object.entries(obj).forEach((kvPr, i) => {
-      if (i === 0) result += '{'; // set opener
-      if (!foulCases.includes(kvPr[0])) { // check if has bad key
-        if (i > 0) result += ','; // set separator
-        baseCaseConverterOrHigherLevelSplitter(kvPr[0]); // key
-        result += ':';
-        baseCaseConverterOrHigherLevelSplitter(kvPr[1]); // value
+    // higherNodes
+    if (Array.isArray(obj)) {
+      result += '[';
+      obj.forEach((val, i) => {
+        if (i > 0) result += ',';
+        result += stringifyJSON(val);
+      });
+      return result + ']';
+    }
+    // Objects literal
+    result += '{';
+    Object.keys(obj).forEach((key, i) => {
+      if (!foulCases.includes(key)) {
+        if (i > 0) result += ',';
+        result += `"${key}":${stringifyJSON(obj[key])}`;
       }
     });
-    return result += '}'; // close array up at end
-  }; 
-  // feed the trunk into the chipper
-  baseCaseConverterOrHigherLevelSplitter(obj);
-
-  return result;
+    return result += '}';
 };
