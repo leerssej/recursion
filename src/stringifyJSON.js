@@ -4,7 +4,6 @@
 // but you don't so you're going to write it from scratch:
 
 const stringifyJSON = obj => {
-  const foulCases = ['functions', 'undefined'];
   let result = '';
   if (typeof obj === 'string') return result += `"${obj}"`;
   if (typeof obj !== 'object' || obj === null) return String(obj);
@@ -20,7 +19,7 @@ const stringifyJSON = obj => {
 
   result += '{';
   Object.keys(obj).forEach((key, i) => {
-    if (!foulCases.includes(key)) {
+    if (!['functions', 'undefined'].includes(key)) {
       if (i > 0) result += ',';
       result += `"${key}":${stringifyJSON(obj[key])}`;
     }
