@@ -10,10 +10,12 @@ const stringifyJSON = (obj) => {
     // pull off braces/brackets and send elements back to base case
 
   // declare the string to begin building upon: assembledString;
-  const baseCases = ['number', 'boolean', 'undefined', 'function'];
+  const baseCases = ['number', 'boolean'];
+  const foulCases = ['functions', 'function'];
   let assembledString = '';
 
   const baseCaseConverterOrHigherLevelSplitter = obj => {
+   if (!foulCases.includes(obj)) {
     // baseCase
     if (typeof obj !== 'object') {
       // check if obj type is a base case ? T => add to assembled string
@@ -55,6 +57,7 @@ const stringifyJSON = (obj) => {
         }
       } // object literal 
     } // all objects
+   }
   }; // baseCaseConverterFunction
 
       
