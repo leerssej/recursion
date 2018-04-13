@@ -5,6 +5,7 @@
 
 const stringifyJSON = obj => {
   let result = '';
+
   if (typeof obj === 'string') return result += `"${obj}"`;
   if (typeof obj !== 'object' || obj === null) return String(obj);
     
@@ -24,5 +25,5 @@ const stringifyJSON = obj => {
       result += `"${key}":${stringifyJSON(obj[key])}`;
     }
   });
-  return result += '}';
+  return result + '}';
 };
