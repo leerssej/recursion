@@ -20,8 +20,7 @@ const stringifyJSON = (obj) => {
       if (baseCases.includes(typeof obj)) return assembledString += obj.toString();
       // wrap strings in quotes
       if (typeof obj === 'string') return assembledString += `"${obj}"`;
-      console.log('obj', obj);
-
+      
     } else { // higherNode // objects
       // handle exception null = bugged up so needs special treatment: direct search
       if (obj === null) return assembledString += 'null';
@@ -38,23 +37,23 @@ const stringifyJSON = (obj) => {
           });
           return assembledString += ']'; // close array up at end
         }
-      } else  // object is not null and not array: thus all that remains is Object literal
-      //   // if object - tear off brace
-        // filet out each element and send up to base case again
-        // drop on braces at both ends
-        // if (Object.keys(obj).length === 0) {
-        if (!Object.hasOwnProperty(obj)) assembledString += '{}';
-          // assembledString += '{}';
-        // } else {
-        //   obj.forEach((val, i) => {
-        //     if (i === 0) assembledString += '['; // set opener
-        //     if (i > 0) assembledString += ','; // set transition separator
-        //     baseCaseConverterOrHigherLevelSplitter(val);
-        //   });
-        //   assembledString += ']'; // close array up at end
-        // }
-        // console.log('obj, val', obj, val, typeof val);
-      //} // object object  
+      } else { // object is not null and not array: thus all that remains is Object literal
+        // handle exception of empty object
+        if (Object.keys(obj).length === 0) {
+          return assembledString += '{}';
+        } else {
+          console.log(obj);
+          Object.entries(obj).forEach((kvPr, i) => {
+          // drop on braces at both ends
+            if (i === 0) assembledString += '{'; // set opener
+            if (i > 0) assembledString += ','; // set transition separator
+            baseCaseConverterOrHigherLevelSplitter(kvPr[0]);
+            assembledString += ':';
+            baseCaseConverterOrHigherLevelSplitter(kvPr[1]);
+          });
+          return assembledString += '}'; // close array up at end
+        }
+      } // object literal 
     } // all objects
   }; // baseCaseConverterFunction
 
@@ -70,7 +69,7 @@ const test = value => {
     }
 // test('hello world');
 
-const stringifiableObjects = [
+const stringyObjects = [
   9,
   null,
   true,
@@ -93,5 +92,5 @@ const stringifiableObjects = [
   [{ 'a': 'b' }, { 'c': 'd' }],
   { 'a': [], 'c': {}, 'b': true }
 ];
-// stringifiableObjects.map(test);
+// stringyObjects.map(test);
 
