@@ -47,12 +47,12 @@ const stringifyJSON = (obj) => {
           Object.entries(obj).forEach((kvPr, i) => {
           // drop on braces at both ends
             if (i === 0) assembledString += '{'; // set opener
-            if (!foulCases.includes(kvPr[0])) { // check if has bad key
+            if (!foulCases.includes(kvPr[0])) { // check if has a good key
+              // string out key value pairs
               if (i > 0) assembledString += ','; // set separator
-              { 
-                baseCaseConverterOrHigherLevelSplitter(kvPr[0]);
-                assembledString += ':';
-                baseCaseConverterOrHigherLevelSplitter(kvPr[1]);
+              baseCaseConverterOrHigherLevelSplitter(kvPr[0]); // key
+              assembledString += ':'; 
+              baseCaseConverterOrHigherLevelSplitter(kvPr[1]); // value
               }
             }
           });
@@ -63,7 +63,6 @@ const stringifyJSON = (obj) => {
   //  }
   }; // baseCaseConverterFunction
 
-      
   // feed the trunk into the chipper
   baseCaseConverterOrHigherLevelSplitter(obj);
   // return all that was found    
